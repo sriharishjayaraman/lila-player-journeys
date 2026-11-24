@@ -6,6 +6,7 @@
 |---|---|---|
 | Data pipeline | Python, pandas + pyarrow + Pillow (`pipeline/build_data.py`) | The data is small (89k rows, 34 MB). A one-shot script that runs in about 4 seconds beats a database or an API. pyarrow reads the extension-less parquet files directly. |
 | Frontend | React 18 + TypeScript + Vite, drawing on a plain `<canvas>` | Thousands of path segments and markers redraw on every playback frame. Canvas 2D handles that easily, and SVG or DOM markers would not. No map or chart library is needed because the "map" is one image with a linear transform. |
+| Stats and presets | Small pure functions in `analysis.ts`, recomputed from whatever is filtered | The answers on screen are always for the current map, dates and match, never pre-baked. |
 | Heatmap | Hand-rolled: 256x256 density grid, 3-pass box blur (close to a gaussian), 99th-percentile normalisation, colour ramp | About 80 lines, no dependency, and it re-renders in a few ms when filters change. |
 | Hosting | Static site on Netlify | No backend at all. The pipeline output is committed under `web/public/`, so the deploy is just `vite build`. |
 

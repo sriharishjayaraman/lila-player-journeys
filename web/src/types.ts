@@ -3,6 +3,9 @@ export type MapId = "AmbroseValley" | "GrandRift" | "Lockdown";
 export interface MapConfig {
   label: string;
   image: string;
+  scale: number; // used to show world coordinates under the cursor
+  origin_x: number;
+  origin_z: number;
 }
 
 export interface MatchSummary {
@@ -49,6 +52,13 @@ export interface Marker {
   y: number;
   player: string;
   match: string;
+  key: string; // match:player, same as Track.key
 }
 
-export type HeatLayer = "none" | "traffic" | EventKind;
+export type HeatLayer = "none" | "traffic" | "cold" | EventKind;
+
+export interface Track {
+  key: string; // match:player
+  player: Player;
+  color: string;
+}

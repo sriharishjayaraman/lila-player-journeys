@@ -16,7 +16,7 @@ export function loadMap(map: MapId): Promise<MapData> {
 }
 
 export function toMarkers(matchId: string, p: Player): Marker[] {
-  return p.events.map(([kind, cause, t, x, y]) => ({ kind, cause, t, x, y, bot: p.bot, player: p.id, match: matchId }));
+  return p.events.map(([kind, cause, t, x, y]) => ({ kind, cause, t, x, y, bot: p.bot, player: p.id, match: matchId, key: `${matchId}:${p.id}` }));
 }
 
 export function describe(m: Marker): string {
@@ -40,7 +40,11 @@ export function fmtTime(sec: number): string {
 
 export const fmtDate = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
-export const fmtClock = (unix: number) => new Date(unix * 1000).toISOString().slice(11, 16);
+// Real UTC start; can differ from the match's date folder for matches that ran over midnight
+export function fmtStart(unix: number): string {
+  const iso = new Date(unix * 1000).toISOString();
+  return `${fmtDate(iso.slice(0, 10))} · ${iso.slice(11, 16)}`;
+}
 
 // Position at time t, linearly interpolated between the 5s samples; null before the first or after the last sample
 export function positionAt(path: number[], t: number): [number, number] | null {

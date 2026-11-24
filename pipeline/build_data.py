@@ -129,7 +129,7 @@ def build():
         print(f"{map_id}: {len(matches)} matches")
 
     index = {
-        "maps": {m: {"label": c["label"], "image": f"minimaps/{m}.jpg"} for m, c in MAPS.items()},
+        "maps": {m: {k: c[k] for k in ("label", "scale", "origin_x", "origin_z")} | {"image": f"minimaps/{m}.jpg"} for m, c in MAPS.items()},
         "mapPx": MAP_PX,
         "dates": sorted({m["date"] for m in index_matches}),
         "matches": sorted(index_matches, key=lambda m: m["start"]),

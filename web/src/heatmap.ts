@@ -83,3 +83,15 @@ function ramp(v: number): [number, number, number] {
 const PALETTE = Array.from({ length: 256 }, (_, i) => ramp(i / 255));
 
 export const HEAT_GRADIENT = `linear-gradient(90deg, ${STOPS.map(([p, c]) => `rgb(${c.join(",")}) ${p * 100}%`).join(", ")})`;
+
+// Flagged cells as crisp pixel squares, matching the blocky grid the stats use
+export function renderCells(flags: Uint8Array, n: number, mapPx: number, color: string): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  canvas.width = mapPx;
+  canvas.height = mapPx;
+  const ctx = canvas.getContext("2d")!;
+  const s = mapPx / n;
+  ctx.fillStyle = color;
+  flags.forEach((f, i) => f && ctx.fillRect((i % n) * s + 1, Math.floor(i / n) * s + 1, s - 2, s - 2));
+  return canvas;
+}
